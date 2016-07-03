@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
 from sklearn import metrics
-
+'''
+Classification metrics
+'''
 modelname = "STRING OF MODEL NAME"
 
 accuracy = metrics.accuracy_score(y_test, y_preds)
 precision = metrics.precision_score(y_test,y_preds)
 recall = metrics.recall_score(y_test,y_preds)
 classification_report = metrics.classification_report(y_test, y_preds)
-confusion_matrix = metrics.confusion_matrix(y_test, y_pred)
+confusion_matrix = metrics.confusion_matrix(y_test, y_preds)
 
 print modelname,"Accuracy Score: ", accuracy
 print modelname,"Precision: ", precision
@@ -64,4 +66,38 @@ plt.axvline(0, color='black')
 plt.ylabel('True Positive Rate', fontsize = 24)
 plt.xlabel('False Positive Rate', fontsize = 24)
 # showing our plot
+plt.show()
+
+
+'''
+Regression Metrics
+'''
+modelname = "STRING OF MODEL NAME"
+
+explained_variance_score = metrics.explained_variance_score(y_test, y_preds)
+absolute_error = metrics.mean_absolute_error(y_test, y_preds)
+mean_squared_error = metrics.mean_squared_error(y_test, y_preds)
+median_absolute_error = metrics.median_absolute_error(y_test, y_preds)
+r2_score = metrics.r2_score(y_test, y_preds)
+
+print modelname,"Explained Variance Score: ",explained_variance_score
+print modelname,"Absolute Error: ",absolute_error
+print modelname,"Mean Squared Error: ",mean_squared_error
+print modelname,"Median Absolute Error: ",median_absolute_error
+print modelname,"R-Sqaured Score: ",r2_score
+
+# plot predicted values vs true values
+plt.scatter(y_preds,y_test)
+# plot best fit line (r^2)
+fit = np.polyfit(y_preds, y_test, deg=1)
+plt.plot(y_preds, fit[0] * y_preds + fit[1], color='red')
+# choosing a background style for our graph
+plt.style.use('ggplot')
+# increasing the size of the figure
+plt.figure(figsize = (13, 11))
+#giving the graph a title
+plt.title('Predicted vs True', fontsize = 24)
+# set labels
+plt.ylabel('True Values', fontsize = 24)
+plt.xlabel('Predicted Values', fontsize = 24)
 plt.show()
