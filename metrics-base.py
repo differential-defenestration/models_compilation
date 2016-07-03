@@ -12,35 +12,56 @@ confusion_matrix = metrics.confusion_matrix(y_test, y_pred)
 print modelname,"Accuracy Score: ", accuracy
 print modelname,"Precision: ", precision
 print modelname,"Recall: ", recall
-print classification_report
+print
 print confusion_matrix
+print
+print classification_report
 
 
 '''ROC Curve '''
 
-##MODELNAME##_accuracy = metrics.accuracy_score(y_preds,y_test)
+# We have already imported metrics which is what we need to build the ROC Curve
 
-print "##MODEL NAME## Accuracy Score: ",##MODELNAME##_accuracy
-print(metrics.classification_report(y_test, y_preds, target_names=iris.target_names))
+# ROC - Reciever Operating Characteristic, used to measure basically the False Positive
+# rate (x-axis) against the true positive rate (y-axis)
+
+## Insert your instantiated and fit model below
+model = lgr_fit
 
 
-model = ##INSERT MODEL##
-
-#Probability
+#Here we are creating our predicted probabilities. This goes beyond whether something is
+# predicted as a 1 or a zero, but is their actual probability (from 0 to 1) that the output
+# is a 1. For example, if the predic_proba value is .34, there is a 34% chance that datapoint
+# is a 1
 y_probs = model.predict_proba(X_test)
 
 #False Positive Rate, True Poisitive Rate
 false_positive_rate, true_positive_rate, thresholds = metrics.roc_curve(y_test, y_probs[:,1])
 roc_auc = metrics.auc(false_positive_rate, true_positive_rate)
 
-#Plot the ROC Curve
-plt.title('Receiver Operating Characteristic')
+#### Plot the ROC Curve
+
+# choosing a background style for our graph
+plt.style.use('ggplot')
+# increasing the size of the figure
+plt.figure(figsize = (13, 11))
+#giving the graph a title
+plt.title('Receiver Operating Characteristic', fontsize = 24)
+# plotting the fpr and tpr that were defined above on our graph
 plt.plot(false_positive_rate, true_positive_rate, 'b',
 label='AUC = %0.2f'% roc_auc)
-plt.legend(loc='lower right')
+# creating a legend in the lower right section of the graph with the plot label
+plt.legend(loc='lower right', fontsize = 24)
+#drawing a dashed straight line from points (0, 0) to (1, 1)
 plt.plot([0,1],[0,1],'r--')
-plt.xlim([-0.1,1.2])
-plt.ylim([-0.1,1.2])
-plt.ylabel('True Positive Rate')
-plt.xlabel('False Positive Rate')
+# setting the scale for each axis
+plt.xlim([-0.05,1.05])
+plt.ylim([-0.05,1.05])
+# drawing the axis lines and x and y = 0
+plt.axhline(0, color='black')
+plt.axvline(0, color='black')
+#labeling the x and y axes
+plt.ylabel('True Positive Rate', fontsize = 24)
+plt.xlabel('False Positive Rate', fontsize = 24)
+# showing our plot
 plt.show()
